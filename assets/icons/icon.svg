@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Jigsaw Studio Icon">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7effca"/>
+      <stop offset="1" stop-color="#6cc9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="#0a201b"/>
+  <rect x="76" y="76" width="360" height="360" rx="80" fill="url(#g)"/>
+  <path d="M151 233h58c13 0 24-11 24-24v-8c0-22 17-39 39-39s39 17 39 39v8c0 13 11 24 24 24h58v58c0 13-11 24-24 24h-8c-22 0-39 17-39 39s17 39 39 39h8c13 0 24 11 24 24v8H317c-13 0-24-11-24-24v-8c0-22-17-39-39-39s-39 17-39 39v8c0 13-11 24-24 24h-40v-74c0-13 11-24 24-24h8c22 0 39-17 39-39s-17-39-39-39h-8c-13 0-24-11-24-24z" fill="#07231d"/>
+</svg>

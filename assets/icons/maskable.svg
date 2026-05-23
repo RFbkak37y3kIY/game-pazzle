@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Jigsaw Studio Maskable Icon">
+  <defs>
+    <radialGradient id="bg" cx="0.25" cy="0.18" r="0.95">
+      <stop offset="0" stop-color="#1a664f"/>
+      <stop offset="1" stop-color="#071a15"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8dffd2"/>
+      <stop offset="1" stop-color="#8fe1ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="174" fill="url(#accent)"/>
+  <path d="M164 246h52c10 0 18-8 18-18v-14c0-20 16-36 36-36s36 16 36 36v14c0 10 8 18 18 18h52v52c0 10-8 18-18 18h-14c-20 0-36 16-36 36s16 36 36 36h14c10 0 18 8 18 18v28h-66c-10 0-18-8-18-18v-14c0-20-16-36-36-36s-36 16-36 36v14c0 10-8 18-18 18h-38v-66c0-10 8-18 18-18h14c20 0 36-16 36-36s-16-36-36-36h-14c-10 0-18-8-18-18z" fill="#0b261f"/>
+</svg>

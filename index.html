@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#153b35">
+  <meta name="description" content="Jigsaw Studio: современная игра-пазл с офлайн-режимом, ежедневными испытаниями и сохранением прогресса.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icons/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/main.css">
+  <title>Jigsaw Studio</title>
+</head>
+<body>
+  <div class="aurora"></div>
+
+  <div id="mobileShell" class="mobile-shell hidden">
+    <section id="mobileImageScreen" class="mobile-screen is-active">
+      <div class="mobile-screen-head">
+        <p id="mobileImageEyebrow" class="mobile-eyebrow">Старт</p>
+        <h1 id="mobileImageTitle">Jigsaw Studio</h1>
+        <p id="mobileImageSubtitle" class="mobile-subtitle">Выберите картинку или загрузите свою, чтобы начать новую игру.</p>
+      </div>
+
+      <div class="mobile-preview-card glass">
+        <div class="mobile-preview-frame">
+          <img id="mobileSelectedPreview" alt="Выбранное изображение">
+          <div id="mobilePreviewPlaceholder" class="mobile-preview-placeholder">JS</div>
+        </div>
+        <div class="mobile-preview-copy">
+          <strong id="mobileSelectedName">Изображение не выбрано</strong>
+          <span id="mobileSelectedHint">Выберите пресет или загрузите фото.</span>
+        </div>
+      </div>
+
+      <div class="mobile-upload-actions">
+        <button id="mobileUploadBtn" class="btn btn-secondary">Загрузить фото</button>
+        <button id="mobileContinueSavedBtn" class="btn btn-secondary hidden">Продолжить</button>
+      </div>
+
+      <div class="preset-grid mobile-preset-grid">
+        <button class="preset-btn mobile-preset-btn" data-name="Природа" data-preview="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=280&q=70" data-url="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=280&q=70" alt="Природа">
+        </button>
+        <button class="preset-btn mobile-preset-btn" data-name="Кот" data-preview="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=280&q=70" data-url="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80">
+          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=280&q=70" alt="Кот">
+        </button>
+        <button class="preset-btn mobile-preset-btn" data-name="Лес" data-preview="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=280&q=70" data-url="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=80">
+          <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=280&q=70" alt="Лес">
+        </button>
+        <button class="preset-btn mobile-preset-btn" data-name="Побережье" data-preview="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=280&q=70" data-url="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80">
+          <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=280&q=70" alt="Побережье">
+        </button>
+      </div>
+
+      <div class="mobile-screen-actions">
+        <button id="mobileImageNextBtn" class="btn btn-primary" disabled>Далее</button>
+      </div>
+    </section>
+
+    <section id="mobileSetupScreen" class="mobile-screen hidden">
+      <div class="mobile-inline-actions">
+        <button id="mobileSetupBackBtn" class="btn btn-secondary">Назад</button>
+      </div>
+
+      <div class="mobile-preview-card glass compact">
+        <div class="mobile-preview-frame compact">
+          <img id="mobileSetupPreview" alt="Предпросмотр изображения">
+          <div id="mobileSetupPlaceholder" class="mobile-preview-placeholder">JS</div>
+        </div>
+        <div class="mobile-preview-copy">
+          <strong id="mobileSetupName">Подготовка игры</strong>
+          <span id="mobileSetupHint">Настройте параметры и начните сборку.</span>
+        </div>
+      </div>
+
+      <div class="mobile-section glass">
+        <h2 id="mobileDifficultyTitle">Сложность</h2>
+        <div id="mobileGridSelector" class="grid-selector mobile-grid-selector" role="radiogroup" aria-label="Выбор сложности">
+          <button class="grid-btn mobile-grid-btn" data-target="2">2x2</button>
+          <button class="grid-btn mobile-grid-btn" data-target="3">3x3</button>
+          <button class="grid-btn mobile-grid-btn active" data-target="4">4x4</button>
+          <button class="grid-btn mobile-grid-btn" data-target="5">5x5</button>
+          <button class="grid-btn mobile-grid-btn" data-target="6">6x6</button>
+        </div>
+        <p class="micro-copy"><span id="mobileActualGridLabel">Реальная сетка</span>: <strong id="mobileActualGridSize">4 x 4 (16)</strong></p>
+      </div>
+
+      <div class="mobile-section glass">
+        <h2 id="mobileModeTitle">Режим</h2>
+        <label class="switch-row">
+          <span id="mobileRotationLabel">Вращение деталей</span>
+          <input id="mobileRotationToggle" type="checkbox" checked>
+        </label>
+        <label class="switch-row">
+          <span id="mobileGridLinesLabel">Контуры сетки</span>
+          <input id="mobileGridLinesToggle" type="checkbox" checked>
+        </label>
+        <label class="range-row" for="mobileHintOpacity">
+          <span><span id="mobileHintLabel">Прозрачность подсказки</span>: <strong id="mobileHintValue">15%</strong></span>
+          <input id="mobileHintOpacity" type="range" min="0" max="70" value="15">
+        </label>
+      </div>
+
+      <div class="mobile-screen-actions">
+        <button id="mobileStartGameBtn" class="btn btn-primary">Начать игру</button>
+      </div>
+    </section>
+
+    <section id="mobileResultScreen" class="mobile-screen hidden">
+      <div class="mobile-screen-head result">
+        <p id="mobileResultEyebrow" class="mobile-eyebrow">Финиш</p>
+        <h2 id="mobileResultTitle">Пазл собран!</h2>
+        <p id="mobileResultSubtitle" class="mobile-subtitle">Отличная работа. Вы можете повторить игру или вернуться на главный экран.</p>
+      </div>
+
+      <div class="mobile-result-card glass">
+        <div class="mobile-result-stats">
+          <div>
+            <span id="mobileResultTimeLabel">Время</span>
+            <strong id="mobileResultTime">00:00</strong>
+          </div>
+          <div>
+            <span id="mobileResultMovesLabel">Ходы</span>
+            <strong id="mobileResultMoves">0</strong>
+          </div>
+        </div>
+        <p id="mobileResultImageName" class="mobile-result-image-name">Последнее изображение</p>
+      </div>
+
+      <div class="mobile-screen-actions">
+        <button id="mobileRepeatBtn" class="btn btn-primary">Повторить</button>
+        <button id="mobileHomeBtn" class="btn btn-secondary">На главный экран</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="desktop-shell">
+
+  <header class="app-header glass">
+    <div class="brand-block">
+      <div class="brand-mark">JS</div>
+      <div>
+        <h1>Jigsaw Studio</h1>
+        <p id="brandSubtitle">Соберите картинку. Играйте офлайн. Улучшайте рекорды.</p>
+      </div>
+    </div>
+
+    <div class="stats-row" aria-live="polite">
+      <div class="stat-card">
+        <span id="labelTime">Время</span>
+        <strong id="timer">00:00</strong>
+      </div>
+      <div class="stat-card">
+        <span id="labelMoves">Ходы</span>
+        <strong id="moves">0</strong>
+      </div>
+      <div class="stat-card">
+        <span id="labelProgress">Прогресс</span>
+        <strong id="progress">0%</strong>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button id="installBtn" class="btn btn-secondary hidden">Установить</button>
+      <button id="settingsBtn" class="btn btn-secondary">Настройки</button>
+      <button id="muteBtn" class="btn btn-secondary" aria-pressed="false">Звук: вкл</button>
+      <button id="resetBtn" class="btn btn-danger">Сбросить</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel glass controls-panel">
+      <section>
+        <h2 id="sectionImage">Изображение</h2>
+        <label class="upload-zone" for="imageLoader">
+          <strong id="uploadTitle">Загрузить фото</strong>
+          <span id="uploadHint">PNG, JPG, WEBP до 10MB</span>
+        </label>
+        <input id="imageLoader" type="file" accept="image/*" hidden>
+
+        <div class="preset-grid">
+          <button class="preset-btn" data-name="Природа" data-url="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=280&q=70" alt="Природа">
+          </button>
+          <button class="preset-btn" data-name="Кот" data-url="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=80">
+            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=280&q=70" alt="Кот">
+          </button>
+          <button class="preset-btn" data-name="Лес" data-url="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=80">
+            <img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=280&q=70" alt="Лес">
+          </button>
+          <button class="preset-btn" data-name="Побережье" data-url="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80">
+            <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=280&q=70" alt="Побережье">
+          </button>
+        </div>
+      </section>
+
+      <section>
+        <h2 id="sectionDifficulty">Сложность</h2>
+        <div class="grid-selector" id="gridSelector" role="radiogroup" aria-label="Выбор сложности">
+          <button class="grid-btn" data-target="2">2x2</button>
+          <button class="grid-btn" data-target="3">3x3</button>
+          <button class="grid-btn active" data-target="4">4x4</button>
+          <button class="grid-btn" data-target="5">5x5</button>
+          <button class="grid-btn" data-target="6">6x6</button>
+        </div>
+        <p class="micro-copy">Реальная сетка: <strong id="actualGridSize">4 x 4 (16)</strong></p>
+      </section>
+
+      <section>
+        <h2 id="sectionMode">Режим</h2>
+        <label class="switch-row">
+          <span id="labelRotation">Вращение деталей</span>
+          <input id="rotationToggle" type="checkbox" checked>
+        </label>
+        <label class="switch-row">
+          <span id="labelGridLines">Контуры сетки</span>
+          <input id="gridLinesToggle" type="checkbox" checked>
+        </label>
+        <label class="range-row" for="hintOpacity">
+          <span><span id="labelHintOpacity">Прозрачность подсказки</span>: <strong id="opacityValue">15%</strong></span>
+          <input id="hintOpacity" type="range" min="0" max="70" value="15">
+        </label>
+      </section>
+
+      <section>
+        <h2 id="sectionApp">Приложение</h2>
+        <div class="action-grid">
+          <button id="shuffleBtn" class="btn btn-secondary">Перемешать</button>
+          <button id="solveBtn" class="btn btn-secondary">Автосборка</button>
+          <button id="pauseBtn" class="btn btn-secondary">Пауза</button>
+          <button id="dailyBtn" class="btn btn-secondary">Челлендж дня</button>
+          <button id="continueBtn" class="btn btn-secondary">Продолжить</button>
+          <button id="screenshotBtn" class="btn btn-secondary">Скриншот</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 id="sectionRecords">Рекорды</h2>
+        <div id="recordsBoard" class="records-board"></div>
+      </section>
+
+      <section>
+        <h2 id="sectionAchievements">Достижения</h2>
+        <div class="rewards-balance"><span id="labelRewards">Награды</span>: <strong id="rewardPoints">0</strong> XP</div>
+        <div id="achievementsBoard" class="achievements-board"></div>
+      </section>
+    </aside>
+
+    <section class="panel glass board-panel">
+      <div class="board-toolbar">
+        <p id="statusText">Перетаскивайте детали. Кликните по детали для вращения.</p>
+        <span id="saveBadge" class="save-badge">Сохранено</span>
+      </div>
+
+      <div class="canvas-shell">
+        <canvas id="gameCanvas" aria-label="Игровой холст"></canvas>
+        <div id="loadingOverlay" class="overlay hidden">
+          <div class="spinner"></div>
+          <p id="loadingText">Загрузка изображения...</p>
+        </div>
+        <div id="pauseOverlay" class="overlay hidden">
+          <h3 id="pauseTitle">Пауза</h3>
+          <p id="pauseText">Игра остановлена. Нажмите «Пауза», чтобы продолжить.</p>
+        </div>
+        <div id="mobilePlayHud" class="mobile-play-hud hidden">
+          <div class="mobile-play-topbar">
+            <button id="mobileBackBtn" class="icon-btn" type="button" aria-label="Назад" title="Назад"><span aria-hidden="true">&#8592;</span></button>
+            <div class="mobile-play-actions">
+              <button id="mobilePlayPauseBtn" class="icon-btn" type="button" aria-label="Пауза" title="Пауза"><span aria-hidden="true">&#10074;&#10074;</span></button>
+              <button id="mobilePlaySettingsBtn" class="icon-btn" type="button" aria-label="Настройки" title="Настройки"><span aria-hidden="true">&#9881;</span></button>
+            </div>
+          </div>
+          <div class="mobile-play-stats" aria-live="polite">
+            <div>
+              <span id="mobileLabelTime">Время</span>
+              <strong id="mobileTimer">00:00</strong>
+            </div>
+            <div>
+              <span id="mobileLabelMoves">Ходы</span>
+              <strong id="mobileMoves">0</strong>
+            </div>
+            <div>
+              <span id="mobileLabelProgress">Прогресс</span>
+              <strong id="mobileProgress">0%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  </div>
+
+  <div id="victoryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="victoryTitle">
+    <div class="modal-card">
+      <h2 id="victoryTitle">Пазл собран!</h2>
+      <p>Отличная работа. Результат сохранен в рекорды.</p>
+      <div class="modal-stats">
+        <div>
+          <span>Время</span>
+          <strong id="victoryTime">00:00</strong>
+        </div>
+        <div>
+          <span>Ходы</span>
+          <strong id="victoryMoves">0</strong>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button id="playAgainBtn" class="btn btn-primary">Играть снова</button>
+        <button id="closeModalBtn" class="btn btn-secondary">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="settingsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="modal-card settings-card">
+      <h2 id="settingsTitle">Настройки</h2>
+      <p id="settingsSubtitle">Персонализируйте игру под себя.</p>
+
+      <div class="settings-grid">
+        <label class="settings-row" for="langSelect">
+          <span id="labelLanguage">Язык интерфейса</span>
+          <select id="langSelect">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+
+        <label class="settings-row" for="vibrationToggle">
+          <span id="labelVibration">Вибрация при фиксации</span>
+          <input id="vibrationToggle" type="checkbox" checked>
+        </label>
+
+        <label class="settings-row" for="compactUiToggle">
+          <span id="labelCompactUI">Компактный интерфейс</span>
+          <input id="compactUiToggle" type="checkbox">
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button id="saveSettingsBtn" class="btn btn-primary">Сохранить</button>
+        <button id="closeSettingsBtn" class="btn btn-secondary">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" aria-live="polite"></div>
+
+  <script src="./scripts/app.js"></script>
+</body>
+</html>

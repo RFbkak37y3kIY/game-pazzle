@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#153b35">
+  <title>Jigsaw Studio • Офлайн</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #06120f;
+      --card: #102722;
+      --line: #2f6557;
+      --text: #dffcef;
+      --muted: #93b8ad;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 20% 10%, #164538 0%, var(--bg) 36%);
+      color: var(--text);
+      font-family: "Segoe UI", sans-serif;
+      padding: 20px;
+    }
+    .card {
+      width: min(480px, 100%);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+    }
+    p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    button {
+      border: 1px solid #72dfbc;
+      background: #17443a;
+      color: var(--text);
+      border-radius: 10px;
+      min-height: 40px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <article class="card">
+    <h1>Нет подключения к сети</h1>
+    <p>Проверьте интернет и попробуйте снова. Если игра уже была загружена раньше, основной экран доступен из кеша.</p>
+    <button onclick="location.reload()">Повторить</button>
+  </article>
+</body>
+</html>
