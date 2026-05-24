@@ -1060,7 +1060,7 @@
   }
 
   function renderRecords() {
-    const keys = ['2', '3', '4', '5', '6'];
+    const keys = ['2', '3', '4', '5', '6', '7', '8'];
     ui.recordsBoard.innerHTML = '';
 
     keys.forEach((key) => {
@@ -1220,7 +1220,7 @@
       setMobileScreen('play');
     }
 
-    gridTargetSize = clamp(Number(data.gridTargetSize) || 4, 2, 6);
+    gridTargetSize = clamp(Number(data.gridTargetSize) || 4, 2, 8);
     updateGridSelectorUI();
 
     loadImage(restoredMeta.src, restoredMeta, () => {
@@ -2497,7 +2497,7 @@
         return;
       }
 
-      gridTargetSize = clamp(Number(btn.dataset.target) || 4, 2, 6);
+      gridTargetSize = clamp(Number(btn.dataset.target) || 4, 2, 8);
       updateGridSelectorUI();
       persistSettings();
       scheduleCanvasRender();
@@ -2569,7 +2569,7 @@
         return;
       }
 
-      gridTargetSize = clamp(Number(btn.dataset.target) || 4, 2, 6);
+      gridTargetSize = clamp(Number(btn.dataset.target) || 4, 2, 8);
       updateGridSelectorUI();
       persistSettings();
 
