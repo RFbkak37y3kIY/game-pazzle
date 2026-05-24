@@ -1,49 +1,52 @@
 # Jigsaw Studio PWA
 
-Полноценная игра-пазл в формате веб-приложения.
+A full-featured puzzle game in web app format.
 
-## Что реализовано
+## [Demo](https://rfbkak37y3kiy.github.io/game-pazzle/)
 
-- Адаптивный интерфейс для мобильных, планшетов и десктопа
-- Canvas-движок пазла с изогнутыми деталями
-- Перетаскивание, поворот, автосборка, перемешивание
-- Пауза и продолжение
-- Сохранение прогресса между сессиями (localStorage)
-- Локальные рекорды по уровням сложности
-- Ежедневный челлендж (daily challenge)
-- Экспорт скриншота текущей игры
-- Экран настроек (язык RU/EN, вибрация, компактный UI)
-- Система достижений и наград (XP)
+
+## Implemented Features
+
+- Responsive interface for mobile, tablet, and desktop
+- Canvas-based puzzle engine with curved pieces
+- Dragging, rotation, auto-solve, and shuffle
+- Pause and resume
+- Progress saving between sessions (localStorage)
+- Local records by difficulty level
+- Daily challenge
+- Export of a screenshot of the current game
+- Settings screen (RU/EN language, vibration, compact UI)
+- Achievements and rewards system (XP)
 - PWA: manifest + service worker + offline fallback
-- Установка приложения на устройство (кнопка появляется при поддержке браузера)
-- PNG-иконки для совместимости установки на Android/iOS
+- Installable app on a device (the button appears when supported by the browser)
+- PNG icons for Android/iOS installation compatibility
 
-## Структура
+## Structure
 
-- `index.html` — интерфейс приложения
-- `styles/main.css` — стили и адаптив
-- `scripts/app.js` — игровой движок и app-логика
-- `manifest.webmanifest` — метаданные PWA
-- `sw.js` — кеширование и офлайн-режим
-- `offline.html` — офлайн-страница
+- `index.html` — application interface
+- `styles/main.css` — styles and responsive layout
+- `scripts/app.js` — game engine and app logic
+- `manifest.webmanifest` — PWA metadata
+- `sw.js` — caching and offline mode
+- `offline.html` — offline page
 
-## Запуск локально
+## Run Locally
 
-PWA работает корректно только через HTTP/HTTPS, а не через file://
+The PWA works correctly only over HTTP/HTTPS, not via file://
 
-Вариант с Node.js:
+Node.js option:
 
 ```bash
 npx serve .
 ```
 
-После запуска откройте выданный локальный URL в браузере.
+After starting, open the generated local URL in your browser.
 
-## Иконки PWA
+## PWA Icons
 
-Проект уже содержит:
+The project already includes:
 
 - `assets/icons/icon-192.png`
 - `assets/icons/icon-512.png`
 - `assets/icons/maskable-512.png`
-- SVG-версии для fallback
+- SVG versions for fallback
