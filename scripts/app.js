@@ -442,8 +442,11 @@
   const boardLayerCtx = boardLayerCanvas.getContext('2d');
   const lockedLayerCanvas = document.createElement('canvas');
   const lockedLayerCtx = lockedLayerCanvas.getContext('2d');
+  const dragLayerCanvas = document.createElement('canvas');
+  const dragLayerCtx = dragLayerCanvas.getContext('2d');
   let isBoardLayerDirty = true;
   let isLockedLayerDirty = true;
+  let isDragLayerDirty = true;
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
@@ -487,6 +490,10 @@
 
   function markLockedLayerDirty() {
     isLockedLayerDirty = true;
+  }
+
+  function markDragLayerDirty() {
+    isDragLayerDirty = true;
   }
 
   function resizeCacheLayer(layerCanvas, layerCtx, width, height, dpr) {
@@ -1285,8 +1292,10 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     resizeCacheLayer(boardLayerCanvas, boardLayerCtx, canvas.width, canvas.height, dpr);
     resizeCacheLayer(lockedLayerCanvas, lockedLayerCtx, canvas.width, canvas.height, dpr);
+    resizeCacheLayer(dragLayerCanvas, dragLayerCtx, canvas.width, canvas.height, dpr);
     markBoardLayerDirty();
     markLockedLayerDirty();
+    markDragLayerDirty();
 
     calculateGridDimensions();
     calculateBoardGeometry();
@@ -1308,6 +1317,8 @@
     if (ui.mobileActualGridSize) {
       ui.mobileActualGridSize.textContent = `${cols} x ${rows} (${actualTotal})`;
     }
+
+    markBoardLayerDirty();
   }
 
   function calculateBoardGeometry() {
@@ -1652,6 +1663,7 @@
   function refreshAllPieceRenderCaches() {
     pieces.forEach((piece) => updatePieceRenderCache(piece));
     markLockedLayerDirty();
+    markDragLayerDirty();
   }
 
   function drawPiece(renderCtx, piece) {
@@ -1766,6 +1778,29 @@
     isLockedLayerDirty = false;
   }
 
+  function rebuildDragLayer() {
+    if (!draggedPiece || !isDragLayerDirty) {
+      return;
+    }
+
+    const { w, h } = getCanvasSize();
+    dragLayerCtx.clearRect(0, 0, w, h);
+
+    if (!isImageLoaded) {
+      isDragLayerDirty = false;
+      return;
+    }
+
+    for (let i = 0; i < pieces.length; i += 1) {
+      const piece = pieces[i];
+      if (!piece.isLocked && piece !== draggedPiece) {
+        drawPiece(dragLayerCtx, piece);
+      }
+    }
+
+    isDragLayerDirty = false;
+  }
+
   class Confetti {
     constructor(canvasWidth) {
       this.x = Math.random() * canvasWidth;
@@ -1844,6 +1879,7 @@
   function incrementMoves() {
     moveCount += 1;
     ui.moves.textContent = String(moveCount);
+    ui.mobileMoves.textContent = String(moveCount);
     scheduleSave();
   }
 
@@ -1876,6 +1912,7 @@
       piece.y = targetY;
       piece.isLocked = true;
       markLockedLayerDirty();
+      markDragLayerDirty();
 
       if (settings.vibrationEnabled && navigator.vibrate) {
         navigator.vibrate(14);
@@ -1987,10 +2024,12 @@
     secondsElapsed = 0;
     isGameActive = false;
     draggedPiece = null;
+    activePointerId = null;
 
     stopTimerInterval();
     stopCanvasRender();
     markLockedLayerDirty();
+    markDragLayerDirty();
     ui.pauseOverlay.classList.add('hidden');
     syncPauseButtons();
     clearVictoryModal();
@@ -2016,6 +2055,7 @@
     timerInterval = setInterval(() => {
       secondsElapsed += 1;
       ui.timer.textContent = formatTime(secondsElapsed);
+      ui.mobileTimer.textContent = formatTime(secondsElapsed);
       if (secondsElapsed % 5 === 0) {
         scheduleSave();
       }
@@ -2137,6 +2177,7 @@
     hasActiveRotateAnimation = hasRotatingPieces;
     rebuildBoardLayer();
     rebuildLockedLayer();
+    rebuildDragLayer();
 
     ctx.clearRect(0, 0, w, h);
     isCanvasDirty = false;
@@ -2151,10 +2192,14 @@
     ctx.drawImage(boardLayerCanvas, 0, 0, w, h);
     ctx.drawImage(lockedLayerCanvas, 0, 0, w, h);
 
-    for (let i = 0; i < pieces.length; i += 1) {
-      const piece = pieces[i];
-      if (!piece.isLocked && piece !== draggedPiece) {
-        drawPiece(ctx, piece);
+    if (draggedPiece) {
+      ctx.drawImage(dragLayerCanvas, 0, 0, w, h);
+    } else {
+      for (let i = 0; i < pieces.length; i += 1) {
+        const piece = pieces[i];
+        if (!piece.isLocked) {
+          drawPiece(ctx, piece);
+        }
       }
     }
 
@@ -2201,6 +2246,7 @@
       pieces.push(piece);
     }
 
+    markDragLayerDirty();
     scheduleCanvasRender();
   }
 
@@ -2246,6 +2292,7 @@
 
     draggedPiece = null;
     activePointerId = null;
+    markDragLayerDirty();
     scheduleSave();
     scheduleCanvasRender();
   }
@@ -2255,10 +2302,13 @@
     isImageLoaded = false;
     hasActiveSolveAnimation = false;
     hasActiveRotateAnimation = false;
+    draggedPiece = null;
+    activePointerId = null;
     stopCanvasRender();
     isCanvasDirty = true;
     markBoardLayerDirty();
     markLockedLayerDirty();
+    markDragLayerDirty();
 
     const nextImage = new Image();
     nextImage.crossOrigin = 'anonymous';
@@ -2619,6 +2669,7 @@
       persistSettings();
       applyTranslations();
       syncMobileSettingsControls();
+      resizeCanvas();
       scheduleCanvasRender();
       ui.settingsModal.classList.add('hidden');
       showToast(t('settingsSaved'));

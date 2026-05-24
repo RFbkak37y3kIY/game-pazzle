@@ -1,12 +1,12 @@
-const APP_CACHE = 'jigsaw-studio-cache-v2';
-const RUNTIME_CACHE = 'jigsaw-studio-runtime-v2';
+const APP_CACHE = 'jigsaw-studio-cache-v3';
+const RUNTIME_CACHE = 'jigsaw-studio-runtime-v3';
 
 const APP_SHELL = [
   './',
   './index.html',
   './offline.html',
-  './styles/main.css',
-  './scripts/app.js',
+  './styles/main.css?v=20260524-1',
+  './scripts/app.js?v=20260524-1',
   './manifest.webmanifest',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
@@ -59,7 +59,21 @@ self.addEventListener('fetch', (event) => {
   const isSameOriginAsset = url.origin === self.location.origin;
   const isImageRequest = event.request.destination === 'image';
 
-  if (isSameOriginAsset || isImageRequest) {
+  if (isSameOriginAsset) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(RUNTIME_CACHE).then((cache) => cache.put(event.request, networkResponse.clone()));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  if (isImageRequest) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
         const networkFetch = fetch(event.request)
